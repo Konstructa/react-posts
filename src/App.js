@@ -1,25 +1,58 @@
-import logo from './logo.svg';
 import './App.css';
+import { Component } from 'react';
+import { Posts } from './components/Posts';
+import LoadPosts from './utils/LoadPosts'
+import { Button } from './components/Comum/Button';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  state = {
+    posts: [],
+    allPosts: [],
+    page: 0,
+    postPerPage: 2 
+  };
+
+  componentDidMount() {
+    this.loadPosts()
+  }
+
+  loadPosts = async () => {
+    const { page, postPerPage } = this.state
+
+    const postsAndPhotos = await LoadPosts();
+
+    this.setState({ 
+      posts: postsAndPhotos.slice(page, postPerPage), 
+      allPosts: postsAndPhotos,
+      page: 0,
+      postPerPage: 2
+     })
+  }
+
+  loadMorePosts = () => {
+    const { page, postPerPage, allPosts, posts } = this.state
+
+    const nextPage = page + postPerPage
+
+    const nextPosts = allPosts.slice(nextPage, nextPage + postPerPage)
+
+    posts.push(...nextPosts)
+
+    this.setState({ posts, page: nextPage})
+  }
+
+  render () { 
+
+    const { posts } = this.state
+    
+    return (
+      <section className="container">
+        <Posts posts={posts}/>
+        <Button text="Load more posts" onClick={this.loadMorePosts}/>
+      </section>
+    );
+ }
 }
 
 export default App;
