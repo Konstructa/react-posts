@@ -10,7 +10,7 @@ class App extends Component {
     posts: [],
     allPosts: [],
     page: 0,
-    postPerPage: 2 
+    postPerPage: 2
   };
 
   componentDidMount() {
@@ -44,12 +44,21 @@ class App extends Component {
 
   render () { 
 
-    const { posts } = this.state
+    const { page, postPerPage, allPosts, posts } = this.state
+
+    const noMorePosts = page + postPerPage >= allPosts.length;
     
     return (
       <section className="container">
         <Posts posts={posts}/>
-        <Button text="Load more posts" onClick={this.loadMorePosts}/>
+
+        <div className="button-container">
+          <Button 
+            text="Load more posts" 
+            onClick={this.loadMorePosts} 
+            disabled={noMorePosts}
+          />
+        </div>
       </section>
     );
  }
