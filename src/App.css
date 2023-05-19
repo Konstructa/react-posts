@@ -1,9 +1,7 @@
 .container {
   min-height: 100vh;
   background: #eee;
-  max-width: 1200px;
   padding: 30px;
-  margin: 0 auto;
 }
 
 .posts {

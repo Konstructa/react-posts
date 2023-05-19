@@ -59,7 +59,7 @@ class App extends Component {
     !!searchValue 
     ? 
       posts.filter(post => {
-        return post.title.toLowerCase().includes(searchValue.toLocaleLowerCase())
+        return post.title.toLowerCase().includes(searchValue.toLowerCase())
       })
     : posts
     
